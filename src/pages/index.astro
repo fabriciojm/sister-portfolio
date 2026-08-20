@@ -1,6 +1,8 @@
 ---
 import { getCollection } from 'astro:content';
 
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
 const projects = [
   { type: 'project', title: 'Small Hours', meta: 'Brand identity · 2026', description: 'A gentle identity system for a neighbourhood bakery that wakes before the city.', art: 'sun', number: '01' },
   { type: 'project', title: 'Root & River', meta: 'Packaging · 2025', description: 'Botanical packaging for a small-batch line of sparkling drinks.', art: 'bottle', number: '03' },
@@ -11,7 +13,7 @@ const projects = [
 const posts = (await getCollection('blog')).map((post) => ({
   type: 'blog',
   ...post.data,
-  href: `/blog/${post.id}/`,
+  href: `${base}/blog/${post.id}/`,
 }));
 
 const entries = [...projects, ...posts].sort((a, b) => Number(a.number) - Number(b.number));
@@ -23,7 +25,7 @@ const entries = [...projects, ...posts].sort((a, b) => Number(a.number) - Number
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
     <meta name="description" content="The selected work and occasional notes of Lucy Hart." />
-    <link rel="icon" href="/favicon.svg" />
+    <link rel="icon" href={`${base}/favicon.svg`} />
     <title>Lucy Hart — selected work & notes</title>
   </head>
   <body>
@@ -34,7 +36,7 @@ const entries = [...projects, ...posts].sort((a, b) => Number(a.number) - Number
         <button class="nav-link is-active" type="button" data-filter="all" aria-pressed="true">Everything</button>
         <button class="nav-link" type="button" data-filter="blog" aria-pressed="false">Blog <sup>{posts.length}</sup></button>
         <button class="nav-link" type="button" data-filter="project" aria-pressed="false">Projects <sup>{projects.length}</sup></button>
-        <a class="nav-link" href="/about/">About</a>
+        <a class="nav-link" href={`${base}/about/`}>About</a>
       </nav>
       <div class="sidebar-bottom">
         <p>Independent designer,<br />maker & enthusiastic<br />collector of small things.</p>
